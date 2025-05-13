@@ -59,85 +59,11 @@ class _MyHomeState extends State<MyHome> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ShopScreen()),
-                      );
-                    },
-                    child: Container(
-                      height: 155,
-                      width: 180,
-                      decoration: BoxDecoration(
-                        color: Color(0xffF5F5F5),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Image.asset("asset/headphone.png"),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ShopScreen()),
-                      );
-                    },
-                    child: Container(
-                      height: 155,
-                      width: 180,
-                      decoration: BoxDecoration(
-                        color: Color(0xffF5F5F5),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Image.asset("asset/headphone.png"),
-                    ),
-                  ),
+               ProductWidget(title: "AKG N700NCM2", categories: "",image: "image1", price: "",),
+                  ProductWidget(title: "AKG N700NCM2", categories: "",image: "image2", price: "",),
                 ],
               ),
               SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Flexible(
-                    child: ListTile(
-                      title: Text(
-                        'AKG N7OONCM2 Wireless Headphones',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Text(
-                        '#25,000.00',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    child: ListTile(
-                      title: Text(
-                        "AlAlAl TMA-2 Modular Headphones ",
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Text(
-                        '#19,590.00',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 29), //Accerioes
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -163,7 +89,7 @@ class _MyHomeState extends State<MyHome> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ShopScreen()),
+                        MaterialPageRoute(builder: (context) => ShopScreen( tag: "",)),
                       );
                     },
                     child: Container(
@@ -180,7 +106,7 @@ class _MyHomeState extends State<MyHome> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ShopScreen()),
+                        MaterialPageRoute(builder: (context) => ShopScreen(tag: "",)),
                       );
                     },
                     child: Container(
@@ -255,6 +181,66 @@ class _MyHomeState extends State<MyHome> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+class ProductWidget extends StatelessWidget {
+  const ProductWidget({super.key,  required this.title,  required this.image,  required this.categories, required this.price});
+final String image, title, price, categories;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ShopScreen(tag: image,)),
+        );
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 155,
+            width: 180,
+            decoration: BoxDecoration(
+              color: Color(0xffF5F5F5),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Hero(tag: image,
+            flightShuttleBuilder: (context, anim1, direction, context2, context3){
+if(direction == HeroFlightDirection.push ){
+  return RotationTransition(
+
+      turns: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: anim1, curve: Curves.easeIn)),
+
+     child: context2.widget,);
+}else {
+  return FadeTransition(
+    child: context3.widget,
+    opacity:  Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: anim1, curve: Curves.easeIn)),
+  );
+}
+
+            },
+            transitionOnUserGestures: true,
+            child: Image.asset("asset/headphone.png")),
+          ), SizedBox(height: 10),
+          Text(
+            'AKG N7OONCM2 Wireless \nHeadphones',
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            '#25,000.00',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
       ),
     );
   }
