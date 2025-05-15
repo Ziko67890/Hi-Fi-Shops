@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter666_tutorial/controller.dart';
 import 'package:flutter666_tutorial/the_shopping.dart';
 
 class ShopScreen extends StatefulWidget {
@@ -10,6 +11,11 @@ class ShopScreen extends StatefulWidget {
 }
 
 class _ShopScreenState extends State<ShopScreen> {
+  @override
+  void initState() {
+    // Controller().getAProduct(id);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
