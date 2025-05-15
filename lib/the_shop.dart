@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter666_tutorial/controller.dart';
 import 'package:flutter666_tutorial/the_shopping.dart';
 
 class ShopScreen extends StatefulWidget {
-  const ShopScreen({super.key});
-
+  const ShopScreen({super.key, required this.tag
+  });
+  final String tag;
   @override
   State<ShopScreen> createState() => _ShopScreenState();
 }
 
 class _ShopScreenState extends State<ShopScreen> {
+  @override
+  void initState() {
+    // Controller().getAProduct(id);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +29,18 @@ class _ShopScreenState extends State<ShopScreen> {
               borderRadius: BorderRadius.circular(30),
               color: Color(0xffF5F5F5),
             ),
-            child: Image.asset('asset/headphone.png'),
+            child: Hero(
+                tag: widget.tag,
+                transitionOnUserGestures: true,
+                flightShuttleBuilder: (context, anim1, direction, context2, context3){
+                  if(direction == HeroFlightDirection.push ){
+                    return RotationTransition(
+                        child: context2.widget,
+                        turns: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: anim1, curve: Curves.easeIn)));
+                  }
+                  return context3.widget;
+                },
+                child: Image.asset('asset/headphone.png')),
           ),
           SizedBox(height: 12),
           Padding(

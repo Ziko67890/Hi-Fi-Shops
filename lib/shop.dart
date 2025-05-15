@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter666_tutorial/product.dart';
-import 'package:flutter666_tutorial/the_controller.dart';
+import 'package:flutter666_tutorial/models/allproduct_model.dart';
 import 'package:flutter666_tutorial/the_shop.dart';
+
+import 'controller.dart';
 
 class MyHome extends StatefulWidget {
   const MyHome({super.key});
@@ -13,242 +14,166 @@ class MyHome extends StatefulWidget {
 class _MyHomeState extends State<MyHome> {
   @override
   void initState() {
+ WidgetsBinding.instance.addPostFrameCallback((t) async {
+   allProductModel= await  Controller().getAllProduct();
+   setState(() {
+
+   });
+ });
     super.initState();
-    getRandomproducts();
   }
-
-  Future<void> getRandomproducts() async {
-    setState(() {});
-
-    Products = await Controller().getRandomproducts();
-    setState(() {});
-  }
-
+  AllProductModel? allProductModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //  children: [Icon(Icons.arrow_back_ios), Icon(Icons.search)],
-              // ),
-              SizedBox(height: 25),
-              Text(
-                'Hi- Fi Shop & Service',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 25),
-              Text(
-                'Audio shop on Rustaveli Ave 57.',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
-              ),
-              SizedBox(height: 9),
-              Text(
-                'This shop offer both products and services',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
-              ),
-              SizedBox(height: 29), //products
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Products',
-                    style: TextStyle(fontSize: 29, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    'Show all',
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.w500,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //  children: [Icon(Icons.arrow_back_ios), Icon(Icons.search)],
+                // ),
+                SizedBox(height: 25),
+                Text(
+                  'Hi- Fi Shop & Service',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 25),
+                Text(
+                  'Audio shop on Rustaveli Ave 57.',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                ),
+                SizedBox(height: 9),
+                Text(
+                  'This shop offer both products and services',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                ),
+                SizedBox(height: 29), //products
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Products',
+                      style: TextStyle(fontSize: 29, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  First_Products(
-                    image: "asset/headphone.png",
-                    title: "AKA N700NCMS \n Wireless headphone",
-                    price: "S199.00",
-                    subtitle: "Subtitle",
-                  ),
-                  First_Products(
-                    image: "asset/headphone.png",
-                    title: "AlAlAl TMA-2 Modular \n Headphones",
-                    price: "S250.00",
-                    subtitle: "Subtitle",
-                  ),
-                ],
-              ),
+                    Text(
+                      'Show all',
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Wrap(
+            runSpacing: 20,
+                  spacing: 5,
+                  children: List.generate(allProductModel?.data?["data"].length??0, (index){
+                    return  ProductWidget(title: allProductModel?.data?["data"][index]["title"] ?? "AKG N700NCM2", categories: "",image:  "https://cdn2.thecatapi.com/images/NZpO4pU56M.jpg", price: allProductModel?.data?["data"][index]["price"],);
 
-              SizedBox(height: 29), //Accerioes
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Accessories',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    'Show all',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.blue,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Accessories(
-                    image: "asset/iphoneear.png",
-                    title: "AlAlAlA 3.5mm Jack 1.5m",
-                    price: "S50.00",
-                    subtitle: ". Available",
-                  ),
-                  Accessories(
-                    image: "asset/earphone.png",
-                    title: "AlAlAlA 3.5mm Jack 2m",
-                    price: "S15.00",
-                    subtitle: ". Unavailable",
-                  ),
-                ],
-              ),
-            ],
+                  })
+                  // [
+                  //   ProductWidget(title: allProductModel?.data?["data"][0]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][0]["images"][0]??"", price: allProductModel?.data?["data"][0]["price"],),
+                  //   ProductWidget(title:allProductModel?.data?["data"][1]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][1]["thumbnail"]??'', price: allProductModel?.data?["data"][1]["price"],),
+                  //   ProductWidget(title: allProductModel?.data?["data"][0]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][0]["images"][0]??"", price: allProductModel?.data?["data"][0]["price"],),
+                  //   ProductWidget(title:allProductModel?.data?["data"][1]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][1]["thumbnail"]??'', price: allProductModel?.data?["data"][1]["price"],),
+                  //   ProductWidget(title: allProductModel?.data?["data"][0]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][0]["images"][0]??"", price: allProductModel?.data?["data"][0]["price"],),
+                  //   ProductWidget(title:allProductModel?.data?["data"][1]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][1]["thumbnail"]??'', price: allProductModel?.data?["data"][1]["price"],),
+                  //
+                  // ],
+                ),
+                SizedBox(height: 10),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text(
+                //       'Accessories',
+                //       style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                //     ),
+                //     Text(
+                //       'Show all',
+                //       style: TextStyle(
+                //         fontSize: 20,
+                //         fontWeight: FontWeight.w500,
+                //         color: Colors.blue,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(height: 20),
+            
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-class First_Products extends StatefulWidget {
-  const First_Products({
-    super.key,
-    required this.image,
-
-    required this.title,
-    required this.price,
-    required this.subtitle,
-  });
-
-  final String image;
-  final String title;
-  final String price;
-  final String subtitle;
-  @override
-  State<First_Products> createState() => First_ProductsState();
-}
-
-class First_ProductsState extends State<First_Products> { V
-
+class ProductWidget extends StatelessWidget {
+  const ProductWidget({super.key,  required this.title,  required this.image,  required this.categories, required this.price});
+final String image, title, categories;
+final int price;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ShopScreen()),
-            );
-          },
-          child: Container(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ShopScreen(tag: image,)),
+        );
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
             height: 155,
             width: 180,
             decoration: BoxDecoration(
               color: Color(0xffF5F5F5),
               borderRadius: BorderRadius.circular(8.0),
             ),
-            child: Image.asset("asset/headphone.png"),
-          ),
-        ),
-        SizedBox(height: 12),
-        Text(
-          widget.title,
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-        ),
+            child: Hero(tag: image,
+            flightShuttleBuilder: (context, anim1, direction, context2, context3){
+if(direction == HeroFlightDirection.push ){
+  return RotationTransition(
 
-        Text(
-          widget.price,
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
+      turns: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: anim1, curve: Curves.easeIn)),
+
+     child: context2.widget,);
+}else {
+  return FadeTransition(
+    child: context3.widget,
+    opacity:  Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: anim1, curve: Curves.easeIn)),
+  );
 }
 
-class Accessories extends StatefulWidget {
-  const Accessories({
-    super.key,
-    required this.image,
-    required this.title,
-    required this.price,
-    required this.subtitle,
-  });
-
-  final String image;
-  final String title;
-  final String price;
-  final String subtitle;
-
-  @override
-  State<Accessories> createState() => _AccessoriesState();
-}
-
-class _AccessoriesState extends State<Accessories> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ShopScreen()),
-            );
-          },
-          child: Container(
-            height: 150,
-            width: 180,
-            decoration: BoxDecoration(
-              color: Color(0xffF5F5F5),
-              borderRadius: BorderRadius.circular(8.0),
+            },
+            transitionOnUserGestures: true,
+            child: Image.network(image)),
+          ), SizedBox(height: 10),
+          Text(
+          title,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
             ),
-            child: Image.asset("asset/earphone.png"),
           ),
-        ),
-        SizedBox(height: 12),
-        Text(
-          widget.title,
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-        ),
-        Text(
-          widget.subtitle,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.bold,
-            color: Colors.red,
+          Text(
+           price.toString(),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ),
-        Text(
-          widget.price,
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
