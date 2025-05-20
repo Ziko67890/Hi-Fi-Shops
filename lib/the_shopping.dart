@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter666_tutorial/models/product_model.dart';
 
 class ShoppingScreen extends StatefulWidget {
-  const ShoppingScreen({super.key});
-
+  const ShoppingScreen({super.key, required this.aProductModel});
+  final AProductModel? aProductModel;
   @override
   State<ShoppingScreen> createState() => _ShoppingScreenState();
 }
@@ -13,10 +14,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          'Order Details',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: Text('', style: TextStyle(fontWeight: FontWeight.bold)),
       ),
 
       body: SafeArea(
@@ -39,13 +37,15 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                       borderRadius: BorderRadius.circular(30),
                       color: Color(0xffF5F5F5),
                     ),
-                    child: Image.asset('asset/headphone.png'),
+                    child: Image.network(
+                      "https://cdn2.thecatapi.com/images/NZpO4pU56M.jpg",
+                    ),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'AKG N7OONCM2 Wireless',
+                        widget.aProductModel?.data?.category ?? '',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -53,7 +53,8 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                       ),
                       SizedBox(height: 5),
                       Text(
-                        'Headphones',
+                        widget.aProductModel?.data?.brand ?? '',
+                        // 'Headphones',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -174,7 +175,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                   Text(
-                    '#199.00',
+                    widget.aProductModel?.data?.price.toString() ?? '',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -188,7 +189,8 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                   Text(
-                    '+#10.00',
+                    widget.aProductModel?.data?.discountPercentage.toString() ??
+                        '',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -199,7 +201,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                 children: [
                   Text('Total', style: TextStyle(fontStyle: FontStyle.italic)),
                   Text(
-                    '#209.00',
+                    widget.aProductModel?.data?.price.toString() ?? '',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -211,8 +213,12 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                   child: Text(
-                    'CHECKOUT (#209)',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    widget.aProductModel?.data?.price.toString() ?? 'CHECKOUT',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
