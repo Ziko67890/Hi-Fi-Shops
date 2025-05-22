@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter666_tutorial/models/allproduct_model.dart';
 import 'package:flutter666_tutorial/the_shop.dart';
+import 'package:provider/provider.dart';
 
 import 'controller.dart';
 
@@ -15,13 +16,13 @@ class _MyHomeState extends State<MyHome> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((t) async {
-      allProductModel = await Controller().getAllProduct();
+      await context.read<Controller>().getAllProduct(context);
       setState(() {});
     });
     super.initState();
   }
 
-  AllProductModel? allProductModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,33 +74,37 @@ class _MyHomeState extends State<MyHome> {
                   ],
                 ),
                 SizedBox(height: 20),
-                Wrap(
-                  runSpacing: 20,
-                  spacing: 5,
-                  children: List.generate(
-                    allProductModel?.data?.data?.length ?? 0,
-                    (index) {
-                      return ProductWidget(
-                        title:
-                            allProductModel?.data?.data?[index].title ??
-                            "AKG N700NCM2",
-                        id: allProductModel?.data?.data?[index].id ?? 0,
-                        categories: "",
-                        image:
-                            "https://cdn2.thecatapi.com/images/NZpO4pU56M.jpg",
-                        price: allProductModel?.data?.data?[index].price ?? 0,
-                      );
-                    },
-                  ),
-                  // [
-                  //   ProductWidget(title: allProductModel?.data?["data"][0]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][0]["images"][0]??"", price: allProductModel?.data?["data"][0]["price"],),
-                  //   ProductWidget(title:allProductModel?.data?["data"][1]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][1]["thumbnail"]??'', price: allProductModel?.data?["data"][1]["price"],),
-                  //   ProductWidget(title: allProductModel?.data?["data"][0]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][0]["images"][0]??"", price: allProductModel?.data?["data"][0]["price"],),
-                  //   ProductWidget(title:allProductModel?.data?["data"][1]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][1]["thumbnail"]??'', price: allProductModel?.data?["data"][1]["price"],),
-                  //   ProductWidget(title: allProductModel?.data?["data"][0]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][0]["images"][0]??"", price: allProductModel?.data?["data"][0]["price"],),
-                  //   ProductWidget(title:allProductModel?.data?["data"][1]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][1]["thumbnail"]??'', price: allProductModel?.data?["data"][1]["price"],),
-                  //
-                  // ],
+                Consumer<Controller>(
+                  builder: (context, state, child) {
+                    return Wrap(
+                      runSpacing: 20,
+                      spacing: 5,
+                      children: List.generate(
+                        state. allProductModel?.data?.data?.length ?? 0,
+                        (index) {
+                          return ProductWidget(
+                            title:
+                            state. allProductModel?.data?.data?[index].title ??
+                                "AKG N700NCM2",
+                            id:   state. allProductModel?.data?.data?[index].id ?? 0,
+                            categories: "",
+                            image:
+                                "https://cdn2.thecatapi.com/images/NZpO4pU56M.jpg",
+                            price:    state.allProductModel?.data?.data?[index].price ?? 0,
+                          );
+                        },
+                      ),
+                      // [
+                      //   ProductWidget(title: allProductModel?.data?["data"][0]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][0]["images"][0]??"", price: allProductModel?.data?["data"][0]["price"],),
+                      //   ProductWidget(title:allProductModel?.data?["data"][1]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][1]["thumbnail"]??'', price: allProductModel?.data?["data"][1]["price"],),
+                      //   ProductWidget(title: allProductModel?.data?["data"][0]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][0]["images"][0]??"", price: allProductModel?.data?["data"][0]["price"],),
+                      //   ProductWidget(title:allProductModel?.data?["data"][1]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][1]["thumbnail"]??'', price: allProductModel?.data?["data"][1]["price"],),
+                      //   ProductWidget(title: allProductModel?.data?["data"][0]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][0]["images"][0]??"", price: allProductModel?.data?["data"][0]["price"],),
+                      //   ProductWidget(title:allProductModel?.data?["data"][1]["title"] ?? "AKG N700NCM2", categories: "",image:  allProductModel?.data?["data"][1]["thumbnail"]??'', price: allProductModel?.data?["data"][1]["price"],),
+                      //
+                      // ],
+                    );
+                  }
                 ),
               ],
             ),
