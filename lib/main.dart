@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter666_tutorial/controller.dart';
 import 'package:flutter666_tutorial/shop.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(create: (context)=> Controller(),child: MyApp(),));
 }
 
 class MyApp extends StatelessWidget {
